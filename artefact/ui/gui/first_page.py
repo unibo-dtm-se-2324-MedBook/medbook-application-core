@@ -11,45 +11,50 @@ class FirstPage(Container):
         self.offset = transform.Offset(0,0,)
 
         self.validator = Validator()
-        self.error_border = 'red'
+        self.error_border = error_border
 
-        self.email = None
-        self.first_content = None
-        self.content = None
-
-    def build(self):
+        self.title = Text(value = 'MedBook', weight = 'bold', size = 20, color = txt_color_wt)
+        self.subtitle = Text('Health in a convenient format', weight = 'bold', size = helper_txt_size, color = txt_color_wt)
+        
+        self.text_enter_email = Text('Please enter your email', size = helper_txt_size, color = txt_color_wt, italic = True)
         self.email = TextField(
             hint_text = 'Email',
-            hint_style = TextStyle(size = 12, color = input_hint_color),
-            text_style = TextStyle(size = 12, color = input_hint_color))
+            hint_style = TextStyle(size = helper_txt_size, color = input_hint_color),
+            text_style = TextStyle(size = helper_txt_size, color = input_hint_color),
+            height = txf_height,
+            bgcolor = 'white',
+            border_radius = btn_txtfield_b_radius
+        )
         
-        self.first_content = Column(controls = [
-            Row(alignment='center', controls = [Text(value= 'MedBook', weight='bold',size = 20, color='white')]),
-            Text(value= 'Health in a convenient format', weight='bold', size = 12, color='white'),
-            Container(height = 3),
-            Container(
-                height=txf_height,
-                bgcolor='white',
-                border_radius=10,
-                content=self.email
-            ),
-            Container(
-                height = txf_height,
-                width = btn_width,
-                bgcolor= Dark_bgcolor,
-                border_radius = 10,
-                alignment= alignment.center,
-                content= Text(value='Continue', size = 14, color='white'),
-                on_click = self.but_continue
-            ),
-            Container(height = 2)
+        self.btn_check_email = ElevatedButton(
+            content = Text('Continue', size = general_txt_size, color = txt_color_wt),
+            height = txf_height,
+            width = btn_width,
+            bgcolor = Dark_bgcolor,
+            style = ButtonStyle(shape = RoundedRectangleBorder(radius = btn_txtfield_b_radius)),
+            on_click = self.check_email
+        )
+
+    def build(self):
+        self.first_content = Column(
+            spacing = 8,
+            controls = [
+                Row(alignment = 'center', controls = [self.title]),
+                self.subtitle,
+
+                self.text_enter_email,
+                self.email,
+                Container(height = 1),
+
+                self.btn_check_email,
+                Container(height = 1),
         ])
         
         self.content = Container(
             width = base_width,
             height = base_height,
             border_radius = b_radius,
-            bgcolor = "#7b9faf",
+            bgcolor = '#7b9faf',
             clip_behavior = ClipBehavior.ANTI_ALIAS,
             expand = True,
             content = Stack(controls = [
@@ -62,9 +67,9 @@ class FirstPage(Container):
                 Container(
                     width = base_width,
                     height = base_height,
-                    padding = padding.only(top = 30, left = 10, right = 10),
+                    padding = padding.only(top = 30, left = 10, right = 10, bottom = 10),
                     content= Column(controls=[
-                        Container(height=160),
+                        Container(height = 160),
                         Container(
                             padding = 10,
                             bgcolor = '#cc2d2b2c',
@@ -75,8 +80,10 @@ class FirstPage(Container):
                 ),
             ])
         )
+
+        return self.content
     
-    def but_continue(self, e):
+    def check_email(self, e):
         if not self.validator.email_correctness(self.email.value):
             self.email.border_color = self.error_border
             self.email.update()
@@ -84,9 +91,9 @@ class FirstPage(Container):
             email_input = self.email.value
             email_exist = check_email(email_input)
             if email_exist:
-                self.page.session.set("email", self.email.value)
+                self.page.session.set('email', self.email.value)
                 self.page.go('/login_page')
             else:
-                self.page.session.set("email", self.email.value)
+                self.page.session.set('email', self.email.value)
                 self.page.go('/signup_page')
             
