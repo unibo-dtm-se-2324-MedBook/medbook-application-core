@@ -11,95 +11,135 @@ class SignUpPage(Container):
         self.offset = transform.Offset(0,0,)
         
         self.validator = Validator()
-        self.error_border = 'red'
+        self.error_border = error_border
 
+        self.signup_title = Container(
+            alignment = alignment.center,
+            padding = padding.all(0),
+            margin = margin.all(0),
+            content = Text(
+                value = 'Sign Up',
+                weight = FontWeight.BOLD,
+                size = general_txt_size,
+                color = txt_color_wt,
+                text_align = TextAlign.CENTER 
+            )
+        )
+
+        self.text_welcome = Container(
+            padding = padding.all(0),
+            margin = margin.all(0),
+            content = Column(
+                spacing = 0,
+                controls=[
+                    Text("Seems you don't have account.", size = helper_txt_size, color = txt_color_wt),
+                    Text("Let's get you signed up!", size = helper_txt_size, color = txt_color_wt),
+                ]
+            )
+        )
+        
         self.name = self.create_txtField('Name')
         self.surname = self.create_txtField('Surname')
         self.email =  self.create_txtField('Email') 
         
-        self.view_passw = Text(value= 'View', color = Dark_bgcolor)
+        self.text_password_rule = Container(
+            padding = padding.all(0),
+            margin = margin.all(0),
+            content = Text('Use at least 8 characters, with 1 number and 1 special character',
+                size = helper_txt_size,
+                color = txt_color_wt,
+                italic = True,
+                no_wrap = False,
+            ),
+        )
+
+        self.view_passw = Text(value = 'View', color = Dark_bgcolor)
         self.password = TextField(
             password = True,
-            suffix=Container(
-                on_click= self.show_hide_passw,
-                content= self.view_passw),
+            suffix = Container(
+                on_click = self.show_hide_passw,
+                content = self.view_passw),
             hint_text = 'Password',
-            hint_style = TextStyle(size = 12, color = input_hint_color),
-            text_style = TextStyle( size = 12, color = input_hint_color))
+            hint_style = TextStyle(size = helper_txt_size, color = input_hint_color),
+            text_style = TextStyle( size = helper_txt_size, color = input_hint_color))
 
+        self.text_policy = Column(
+            spacing = 0,
+            controls = [
+                Text(value = 'By clicking button below,', size = helper_txt_size, color= txt_color_wt),
+                Row(
+                    spacing = 0,
+                    controls = [
+                        Text(value = 'I agree to', size = helper_txt_size, color= txt_color_wt),
+                        Text(value = ' Terms of Privacy Policy', size = helper_txt_size, color='#FFFAFA', italic= True)
+                    ]
+                )
+            ]
+        )
+
+        self.button_register = ElevatedButton(
+            content = Text('Agree and Continue', size = general_txt_size, color = txt_color_wt),
+            height = txf_height,
+            width = btn_width,
+            bgcolor = Dark_bgcolor,
+            style = ButtonStyle(shape = RoundedRectangleBorder(radius = btn_txtfield_b_radius)),
+            on_click = self.signup
+        )
+        
         self.content = None
 
 
     def build(self):  
-        self.email.value = self.page.session.get("email")
+        self.email.value = self.page.session.get('email')
 
-        self.sighup_content = Column(controls = [
-            Row(alignment='center', controls = [Text(value= 'Sigh Up', weight='bold',size = 12, color='white')]),
-            Column(
-                spacing = 0,
-                controls=[
-                    Text(value= "Seems you don't have account.", size = 12, color='white'),
-                    Text(value= "Let's get you signed up!", size = 12, color='white'),
-                ]
-            ),
+        self.sighup_content = Column(
+            spacing = 5,
+            tight = True,
+            controls = [
+                self.signup_title,
 
-            Container(
-                height=txf_height,
-                bgcolor='white',
-                border_radius=10,
-                content=self.name
-            ),
-            Container(
-                height=txf_height,
-                bgcolor='white',
-                border_radius=10,
-                content=self.surname
-            ),
-            Container(
-                height=txf_height,
-                bgcolor='white',
-                border_radius=10,
-                content=self.email
-            ),
-            Container(
-                height=txf_height,
-                bgcolor='white',
-                border_radius=10,
-                content=self.password
-            ),
+                self.text_welcome,
 
-            Column(
-                spacing = 0,
-                controls=[
-                    Text(value= "By clicking button below,", size = 12, color='white'),
-                    Row(
-                        spacing = 0,
-                        controls = [
-                            Text(value= "I agree to", size = 12, color='white'),
-                            Text(value= " Terms of Privacy Policy", size = 12, color='#FFFAFA', italic= True)
-                        ]
-                    )
-                ]
-            ),
+                Container(
+                    height=txf_height,
+                    bgcolor='white',
+                    border_radius=10,
+                    content=self.name
+                ),
+                Container(
+                    height=txf_height,
+                    bgcolor='white',
+                    border_radius=10,
+                    content=self.surname
+                ),
+                Container(
+                    height=txf_height,
+                    bgcolor='white',
+                    border_radius=10,
+                    content=self.email,
+                ),
+                
+                self.text_password_rule,
 
-            Container(
-                height = txf_height,
-                width = btn_width,
-                bgcolor= Dark_bgcolor,
-                border_radius = 10,
-                alignment= alignment.center,
-                content= Text(value='Agree and Continue', size = 14, color='white'),
-                on_click=self.signup
-                # on_click= lambda _: self.page.go('/login_page')
-            ),
-            Container(height = 10)
-        ])
+                Container(
+                    height=txf_height,
+                    bgcolor='white',
+                    border_radius=10,
+                    content=self.password
+                ),
+
+                self.text_policy,
+                self.button_register,
+
+                Container(height = 10)
+            ]
+        )
         
         self.content = Container(
             width = base_width,
             height = base_height,
             border_radius = b_radius,
-            bgcolor = "#7b9faf",
+            bgcolor = '#7b9faf',
             clip_behavior = ClipBehavior.ANTI_ALIAS,
             expand = True,
             content = Stack(controls = [
@@ -126,7 +166,7 @@ class SignUpPage(Container):
                                 on_click= lambda _: self.page.go('/first_page')
                             ),
                         ),
-                        Container(padding = 10, bgcolor = '#cc2d2b2c', border_radius = 10, content = self.sighup_content)
+                        Container(padding = padding.only(top=5, left=10, right=10, bottom=10), bgcolor = '#cc2d2b2c', border_radius = 10, content = self.sighup_content)
                     ])
                 )
             ])
@@ -137,8 +177,8 @@ class SignUpPage(Container):
     def create_txtField(self, hint_name):
         return TextField(
             hint_text = hint_name,
-            hint_style = TextStyle(size = 12, color = input_hint_color),
-            text_style = TextStyle(size = 12, color = input_hint_color),
+            hint_style = TextStyle(size = helper_txt_size, color = input_hint_color),
+            text_style = TextStyle(size = helper_txt_size, color = input_hint_color),
             text_align = TextAlign.LEFT)
 
     def show_hide_passw(self, e):
@@ -173,5 +213,5 @@ class SignUpPage(Container):
             password = self.password.value
 
             create_user(name, surname, email, password)
-            self.page.go("/login_page")
+            self.page.go('/login_page')
             
