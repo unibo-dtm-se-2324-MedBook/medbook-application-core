@@ -135,7 +135,7 @@ class MainPage(UserControl):
                 border_radius = b_radius,
                 animate = animation.Animation(600, AnimationCurve.DECELERATE),
                 animate_scale = animation.Animation(400, curve = 'decelerate'),
-                padding = padding.only(top = 15, left = 20, right = 40, bottom = 15), #5
+                padding = padding.only(top = 15, left = 20, right = 40, bottom = 15),
                 clip_behavior = ClipBehavior.ANTI_ALIAS,
                 content = schedule_content
             )]
@@ -190,7 +190,7 @@ class MainPage(UserControl):
     
     # Build the part of calendar with dates and markers
     def _generate_calendar(self):
-        print("Keys in data_by_date:", list(self.data_by_date.keys()))
+        # print("Keys in data_by_date:", list(self.data_by_date.keys()))
         weeks = calendar.monthcalendar(self.year, self.month)
         rows = []
         row_height = calendar_height / 6
@@ -207,7 +207,7 @@ class MainPage(UserControl):
                 
                 markers = []
                 corners = [
-                    {"left": 4, "top": 2}, # 4px
+                    {"left": 4, "top": 2},
                     {"right": 4, "top": 2},
                     {"left": 4, "bottom": 2},
                 ]
@@ -300,8 +300,9 @@ class MainPage(UserControl):
 
         med_list_dialog = AlertDialog(
             bgcolor = minor_light_bgcolor,
-            inset_padding = padding.symmetric(horizontal = 20, vertical = 20),
-            
+            inset_padding = padding.only(top = 20, left = 10, right = 10, bottom = 10),
+            modal = True,
+
             title = Container(
                 alignment = alignment.center,
                 content = Text(f'{calendar.month_name[self.month]} {day:02d}', size = 18,) # weight = FontWeight.BOLD
@@ -325,11 +326,11 @@ class MainPage(UserControl):
             self.page.dialog.open = False
             self.page.update()
 
-    # Method to open window with descripttion of chosed medicine
+    # Method to open window with description of chosed medicine
     def _show_med_detail(self, date_key, pill):
         med_desctiption = AlertDialog(
             bgcolor = minor_light_bgcolor,
-            inset_padding = padding.symmetric(horizontal = 20, vertical = 20),
+            inset_padding = padding.only(top = 20, left = 10, right = 10, bottom = 10),
 
             title = Container(
                 alignment = alignment.center,
@@ -423,20 +424,24 @@ class MainPage(UserControl):
         self.medname_field = create_TextField()
         self.qty_field = create_TextField()
         self.selected_date = Text(str(self.today.date()), size = 12, color = input_hint_color)
-        # self.time_picker = TimePicker(value = self.today.time())
         self.note_field = create_TextField()
 
         self.form = AlertDialog(
             bgcolor = minor_light_bgcolor,
-            inset_padding = padding.symmetric(horizontal = 20, vertical = 20),
+            inset_padding = padding.only(top = 20, left = 10, right = 10, bottom = 10),
 
-            title = Text('New Medicine'),
-            title_padding = padding.only(top = 10, bottom = 10, right = 20, left = 20),
+            title = Container(
+                alignment = alignment.center,
+                content = Text('New Medicine', size = 18)
+            ),
+            title_padding = padding.only(top = 20, bottom = 10),
             
             content_padding = padding.only(top = 0, left = 20, right = 20, bottom = 10),
             content = Column(
                 width = base_width,
+                spacing = 7,
                 controls = [ 
+                    Divider(thickness = 2, color = unit_color_dark),
                     Text('Medication name:', size = general_txt_size),
                     self.medname_field,
                     Text('Quantity of pill:', size = general_txt_size),
@@ -517,7 +522,12 @@ class MainPage(UserControl):
         self.page.update()
 
     def handle_dismissal(self, e):
-        self.page.add(Text(f"DatePicker dismissed"))
+        self.page.snack_bar = SnackBar(
+            content=Text("DatePicker dismissed"),
+            duration = 2000
+        )
+        self.page.snack_bar.open = True
+        self.page.update()
         
     # Function to save new medicine in database and to show it in the calendar
     def save_medicine(self):

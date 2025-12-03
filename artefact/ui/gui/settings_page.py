@@ -184,7 +184,7 @@ class SettingsPage(UserControl):
 
         edit_form = AlertDialog(
             bgcolor = minor_light_bgcolor,
-            inset_padding = padding.symmetric(horizontal = 10, vertical = 20),
+            inset_padding = padding.only(top = 20, left = 10, right = 10, bottom = 10),
 
             title = Container(
                 alignment = alignment.center,
