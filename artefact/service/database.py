@@ -57,9 +57,9 @@ def delete_pill_database(uid, id_token, key):
           .child(key) \
           .remove(id_token)
         
-        print(f'Successfully removed record {key}')
+        # print(f'Successfully removed record {key}')
         return True
     
     except Exception as e:
-        print(f'Failed to remove record {key}: {e}')
+        # print(f'Failed to remove record {key}: {e}')
         return False

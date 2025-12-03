@@ -322,7 +322,8 @@ class MedicineCheckPage(UserControl):
                         self.check_content.scroll_to(key = 'results_anchor', duration = 400)
                         self.page.update()
                     except Exception as ex:
-                        print(f'Scroll error: {ex}')
+                        # print(f'Scroll error: {ex}')
+                        pass
                     return
 
                 self.results_section.controls.clear()
@@ -344,11 +345,12 @@ class MedicineCheckPage(UserControl):
                     self.check_content.scroll_to(key = 'results_anchor', duration = 400)
                     self.page.update()
                 except Exception as ex:
-                    print(f'Scroll error: {ex}')
+                    # print(f'Scroll error: {ex}')
+                    pass
 
 
             except Exception as ex:
-                print(f'Error: {ex}')
+                # print(f'Error: {ex}')
                 self.results_section.controls.clear()
                 self.results_section.controls.extend([
                     divider_between_sections,
@@ -360,7 +362,8 @@ class MedicineCheckPage(UserControl):
                     self.check_content.scroll_to(key='results_anchor', duration=400)
                     self.page.update()
                 except Exception as scroll_ex:
-                    print(f'Scroll error: {scroll_ex}')
+                    # print(f'Scroll error: {scroll_ex}')
+                    pass
 
                 self.update()
 

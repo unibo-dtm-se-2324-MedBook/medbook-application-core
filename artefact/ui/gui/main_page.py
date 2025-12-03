@@ -96,7 +96,7 @@ class MainPage(UserControl):
             # self.user_uid = firebase_auth.verify_id_token(self.token)['uid']
             self.data_by_date = load_medicines_for_user(self.user_uid, self.token, self.year, self.month)
             # print('After calling load_medicines_for_user', self.data_by_date)
-        else: print("token wasn't found")
+        # else: print("token wasn't found")
         self._generate_calendar()
 
 
@@ -202,9 +202,8 @@ class MainPage(UserControl):
             for day in week:
                 date_key = f'{self.year}-{self.month:02d}-{day:02d}'
                 pills = self.data_by_date.get(date_key, [])
-                # 
-                print('date_key = ', date_key)
-                print('Pills = ', pills)
+                # print('date_key = ', date_key)
+                # print('Pills = ', pills)
                 
                 markers = []
                 corners = [

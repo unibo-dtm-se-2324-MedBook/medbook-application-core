@@ -127,7 +127,7 @@ class DocumentsPage(UserControl):
 
     # Logic action of file picker clicking the 'Add new file' button
     def on_file_picked(self, e: FilePickerResultEvent):
-        print("File picker result:", e.files)
+        # print("File picker result:", e.files)
         if e.files:
             file_path = e.files[0].path
             documents_page_service.upload_user_document(self.user_uid, self.token, file_path)
@@ -154,7 +154,7 @@ class DocumentsPage(UserControl):
             self.no_docs_text.visible = True
 
         self.update()
-        print('def load_documents finished')
+        # print('def load_documents finished')
 
     # Creation of visual of file
     def _build_doc_card(self, name, url, storage_path, doc_id):
@@ -232,7 +232,7 @@ class DocumentsPage(UserControl):
             self.page.update()
 
         except Exception as e:
-            print(f'Failed to delete document: {e}')
+            # print(f'Failed to delete document: {e}')
 
             self.page.snack_bar = SnackBar(Text('Failed to delete document'))
             self.page.snack_bar.open = True
