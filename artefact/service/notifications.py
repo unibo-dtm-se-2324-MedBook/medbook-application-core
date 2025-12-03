@@ -7,11 +7,11 @@ from firebase_admin import auth as firebase_auth
 
 
 class NotificationService(UserControl):
-    def __init__(self, page, token, page_header):
+    def __init__(self, page, token, uid, page_header):
         super().__init__()
         self.page = page
         self.token = token
-        self.user_uid = firebase_auth.verify_id_token(token)['uid']
+        self.user_uid = uid
         
         self.page_header = page_header
 

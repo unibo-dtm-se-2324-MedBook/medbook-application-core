@@ -86,16 +86,17 @@ class MainPage(UserControl):
         
         self.month_header = Text(f'{calendar.month_name[self.month]} {self.year}', size = general_txt_size, italic = True)
 
-        self.token = self.page.session.get("token")
+        self.token = self.page.session.get('token')
         if self.token and not self.page.session.get('reminders_started'):
-            notif_service = NotificationService(self.page, self.token, page_header = page_header)
+            notif_service = NotificationService(self.page, self.token, self.user_uid, page_header = page_header)
             self.page.overlay.append(notif_service)
 
+        self.user_uid = self.page.session.get('uid')
         if self.token:
-            self.user_uid = firebase_auth.verify_id_token(self.token)['uid']
+            # self.user_uid = firebase_auth.verify_id_token(self.token)['uid']
             self.data_by_date = load_medicines_for_user(self.user_uid, self.token, self.year, self.month)
             # print('After calling load_medicines_for_user', self.data_by_date)
-        else: print('token wasn"t found')
+        else: print("token wasn't found")
         self._generate_calendar()
 
 
@@ -385,10 +386,10 @@ class MainPage(UserControl):
         self.page.update()
 
     def _delete_pill(self, date_key, pill):
-        uid = firebase_auth.verify_id_token(self.token)['uid']
+        # uid = firebase_auth.verify_id_token(self.token)['uid']
         key = pill['key']
 
-        removal = delete_pill_database(uid, self.token, key)
+        removal = delete_pill_database(self.user_uid, self.token, key)
 
         # Remove the entry locally
         if removal and date_key in self.data_by_date:

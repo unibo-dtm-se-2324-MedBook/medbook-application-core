@@ -2,6 +2,7 @@ from flet import *
 from artefact.utils.traits import *
 from artefact.utils.validation import Validator
 from artefact.service.authentication import login_user, store_token
+from firebase_admin import auth as firebase_auth
 
 class LoginPage(Container):
 
@@ -141,6 +142,8 @@ class LoginPage(Container):
 
             if token:
                 store_token(token)
+                uid = firebase_auth.verify_id_token(token)['uid'] 
+                self.page.session.set('uid', uid)
                 self.page.go('/main_page')
             else:
                 self.page.snack_bar = SnackBar(Text('Invalid password'))

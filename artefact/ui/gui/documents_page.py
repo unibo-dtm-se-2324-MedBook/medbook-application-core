@@ -50,9 +50,7 @@ class DocumentsPage(UserControl):
         page_header = PageHeader(current_page = None)
         
         self.token = self.page.session.get('token')
-        user = auth.get_account_info(self.token)
-        self.user_uid = user['users'][0]['localId']
-        self.page.session.set('uid', self.user_uid)
+        self.user_uid = self.page.session.get('uid')
 
         # Check the timer to start notification service only once
         if self.token and not self.page.session.get('reminders_started'):
