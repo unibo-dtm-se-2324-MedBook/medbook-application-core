@@ -35,13 +35,13 @@ def create_user(name, surname, email, password):
 def check_email(email):
   try:
     user_uid = firebase_auth.get_user_by_email(email)
-    print('Successfully fetched user data: {0}'.format(user_uid.uid))
+    # print('Successfully fetched user data: {0}'.format(user_uid.uid))
     return user_uid.email
   except UserNotFoundError:
-    print("Email wasn't found")
+    # print("Email wasn't found")
     return False 
   except Exception as e:
-    print(f"Other mistake: {e}")
+    # print(f"Other mistake: {e}")
     return None
 
 def login_user(email, password):
@@ -57,15 +57,6 @@ def store_token(token):
     os.remove('token.pickle') #  method is used to delete a file path. This method can not delete a directory and if directory is found it will raise an OSError
   with open('token.pickle', 'wb') as f: # Write + Binary mode
     pickle.dump(token, f) #  to store the object data to the file
-
-# Get user info from token (token.pickle)
-def get_user_info(token):
-    decoded_token = firebase_auth.verify_id_token(token)
-    # uid = decoded_token['uid']
-    # email = decoded_token.get('email')
-    name = decoded_token.get('name') or "User"
-    # return uid, email, name
-    return name
 
 # Update user information in authentication firebase
 def change_user_info(name: str, surname: str, email: str, uid: str, page):
