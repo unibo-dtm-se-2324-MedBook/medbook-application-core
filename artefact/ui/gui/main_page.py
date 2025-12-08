@@ -213,7 +213,7 @@ class MainPage(UserControl):
                 ]
 
                 for i in range(min(len(pills), 3)):
-                    color = (colors.BLUE_ACCENT_200, colors.PURPLE_ACCENT_200, colors.TEAL_ACCENT_200)[i]
+                    color = (Colors.BLUE_ACCENT_200, Colors.PURPLE_ACCENT_200, Colors.TEAL_ACCENT_200)[i]
                     markers.append(
                         Container(
                             width = 5,

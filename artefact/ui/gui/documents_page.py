@@ -16,7 +16,7 @@ class DocumentsPage(UserControl):
         self.token = ''
         self.user_uid = ''
  
-        self.no_docs_text = Text('No documents uploaded yet', size = general_txt_size, italic = True, color = colors.GREY, visible = False)
+        self.no_docs_text = Text('No documents uploaded yet', size = general_txt_size, italic = True, color = Colors.GREY, visible = False)
 
         # Area for uploaded documents
         self.doc_grid = GridView(
