@@ -262,7 +262,7 @@ def test_save_medicine_validation_error_shows_snack(main_page, page):
     mp = main_page
     mp.show_form(e=None)
 
-    mp.medname_field.value = ''    # пустое имя
+    mp.medname_field.value = ''
     mp.qty_field.value = '1'
     mp.selected_date.value = '2025-01-03'
     mp.note_field.value = ''
