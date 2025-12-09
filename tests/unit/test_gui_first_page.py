@@ -43,11 +43,12 @@ class Test_GUI_FirstPage(unittest.TestCase):
         self.fp.validator = SimpleNamespace(email_correctness = lambda _: False)
         self.fp.email = EmailStub(value = 'not_an_email')
 
-        self.fp.but_continue(e = None) # as if we clicked 'Continue'
+        self.fp.check_email(e = None) # as if we clicked 'Continue'
         self.assertEqual(self.fp.email.border_color, self.fp.error_border)
 
         self.assertTrue(self.fp.email.updated)
         self.assertIsNone(self.fp.page.last_route)
+
 
 class Test_Routing(unittest.TestCase):
     def setUp(self):
@@ -59,18 +60,18 @@ class Test_Routing(unittest.TestCase):
         self.fp.validator = SimpleNamespace(email_correctness = lambda _: True)
         self.fp.email = EmailStub(value = 'user@example.com') # valid email
 
-        with patch('artefact.ui.gui.first_page.check_email', return_value = True): # user exists? -> yes
-            self.fp.but_continue(e = None)
+        with patch("artefact.ui.gui.first_page.check_email", return_value=True):
+            self.fp.check_email(e=None)
 
-        self.assertEqual(self.fp.page.session._store.get('email'), 'user@example.com')
-        self.assertEqual(self.fp.page.last_route, '/login_page')
+        self.assertEqual(self.fp.page.session._store.get("email"), "user@example.com")
+        self.assertEqual(self.fp.page.last_route, "/login_page")
 
     def test_new_user_goes_signup(self):
         self.fp.validator = SimpleNamespace(email_correctness = lambda _: True)
         self.fp.email = EmailStub(value = 'newuser@example.com')
 
         with patch('artefact.ui.gui.first_page.check_email', return_value = False): # user exists? -> no
-            self.fp.but_continue(e = None)
+            self.fp.check_email(e = None)
 
         self.assertEqual(self.fp.page.session._store.get('email'), 'newuser@example.com')
         self.assertEqual(self.fp.page.last_route, '/signup_page')

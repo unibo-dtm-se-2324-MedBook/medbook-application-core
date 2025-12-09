@@ -70,6 +70,13 @@ def test_build_reads_email_and_sets_label(login_page):
     assert lp.login_content is not None
     assert lp.content is not None
 
+    # continue_container = None
+    # for c in getattr(lp.login_content, 'controls', []):
+    #     if hasattr(c, 'on_click') and c.on_click is lp.continuing:
+    #         continue_container = c
+    #         break
+    # assert continue_container is not None
+
 
 def test_show_hide_password_toggles(login_page):
     lp = login_page
@@ -112,17 +119,20 @@ def test_continuing_with_valid_password_and_success_token(login_page, page):
     lp.password = PasswordStub(value = 'correct_password', masked=True)
 
     with patch('artefact.ui.gui.login_page.login_user', return_value = 'TOKEN1') as mock_login, \
-         patch('artefact.ui.gui.login_page.store_token') as mock_store:
+         patch('artefact.ui.gui.login_page.store_token') as mock_store, \
+         patch('artefact.ui.gui.login_page.firebase_auth.verify_id_token',
+            return_value={'uid': 'UID1'}) as mock_verify:
 
         lp.continuing(e = None)
+
         mock_login.assert_called_once_with(lp.email, 'correct_password')
+        mock_store.assert_called_once_with('TOKEN1')
+        mock_verify.assert_called_once_with('TOKEN1')
 
         assert page.session.get('token') == 'TOKEN1'
-        mock_store.assert_called_once_with('TOKEN1')
-
+        assert page.session.get('uid') == 'UID1'
         assert page.last_route == '/main_page' # successful login
         assert page.update_calls >= 2
-
 
 def test_continuing_with_valid_password_and_failed_login(login_page, page):
     lp = login_page
