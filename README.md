@@ -1,36 +1,64 @@
-# MedBook
+# MedBook - Your Personal Medical Hub
 
-Кросс-платформенное Flet-приложение для ведения медицинских записей: расписание лекарств, документы, уведомления.
-This repository contains the code of your project work
+MedBook is a privacy-first mobile app that brings all your health information together in one clean, organized space. No more folders stuffed with papers or photos scattered across devices - everything that matters to your health lives in **MedBook**, neatly structured and always at hand.
+
+Here you will find:
+- **Medication Schedule and Daily Reminder** - create a monthly schedule for your medications;
+- **Secure Document Vault** - upload all your medical files;
+- **Pill Risk Check** - get a check of potential pill risks using your sex, age, and country of origin. 
+
+This repository contains the application code for the MedBook project.
+The business documentation lives in a separate repository: [MedBook - business report](https://github.com/unibo-dtm-se-2324-MedBook/report)
+
+---
 
 ## Contents
-- [Features](#features)
+- [Technical Features](#technical-Features)
+- [Requirements](#requirements)
+- [Project Structure](#project-structure)
 - [Architecture](#architecture)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Quality: Lint/Type/Tests](#quality-linttypetests)
+- [Quality: Tests](#quality-linttypetests)
+- [PyPI](#pypi)
 - [Releases & Versioning](#releases--versioning)
-- [Contributing](#contributing)
 - [License](#license)
 
-## Features
+---
+
+## Technical Features
 - Расписание приёма лекарств (отметка, напоминания)
 - Хранение медицинских документов (Firebase)
 - Авторизация пользователя
 - Уведомления
 
 ## Project Structure
-artefact/
-  domain/
-  application/
-  infrastructure/
-  ui/
-    gui/
-      components/
-    cli/
-tests/
-.github/
+```
+.gitattributes
+.gitignore
+poetry.toml
+poetry.lock
 pyproject.toml
+pytest.ini
+LICENSE
+
+.github/
+
+artefact/
+├── assets/
+├── service/ 
+├── ui/
+│ └── gui
+│   ├── components/
+│   └── _master page files_
+├── utils/
+└── __init__.py
+
+tests/
+├── test_model.py
+├── unit
+└── integration
+
+```
 
 ## Architecture
 Проект следует принципам **DDD** и **Hexagonal (Ports & Adapters)**:
@@ -63,18 +91,18 @@ Poetry 1.7.0
 Choose one of the following:
 1. Option A — Download ZIP from GitHub
 2. Option B — Clone with Git:
-```bash
+```
 git clone https://github.com/<your-org>/<your-repo>.git
 cd <your-repo>
 ```
 
 ### Install Dependencies
 1. Poetry will create a virtual environment and install all required packages:
-```bash
+```
 poetry install
 ```
 2. Production-only install: no developer tools:
-```bash
+```
 poetry install --only main 
 ```
 ### Environment Variables (Secrets)
@@ -90,20 +118,20 @@ Provide your environment variables (e.g., Firebase keys) via your platform’s s
 ### Run the application
 Use one of the options below:
 1) Run by module (recommended fallback)
-```bash
+```
 poetry run python -m artefact.ui.gui.main_page
 ```
 2) Run via CLI command
-```bash
+```
 poetry run medbook
 ```
 ### Tests + coverage
 Ковередж уже включен автоматически в ран тестов, поэтому можно сделать просто:
-```bash
+```
 poetry run pytest
 ```
 Но если хочется html отчет, то код:
-```bash
+```
 ```
 
 
@@ -113,14 +141,16 @@ poetry run pytest
 
 Теги: v0.x.y, GitHub Releases + CHANGELOG
 
+## PyPI
 
-## 📜 License
+
+## License
 
 This project is distributed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** license.  
 
-- You are free to use, modify, and share this code **for non-commercial purposes only**;  
-- Attribution is required: **Anastasiia Bakhmutova (2025)**;
-- Any commercial use without the author’s prior written permission is **strictly prohibited**.  
+- You are free to use, modify, and share this code _for non-commercial purposes only_;  
+- Attribution is required: _Anastasiia Bakhmutova (2025)_;
+- Any commercial use without the author’s prior written permission is _strictly prohibited_.  
 
 [Full license text](./LICENSE)
 
