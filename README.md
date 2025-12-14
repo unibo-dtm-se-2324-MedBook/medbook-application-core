@@ -8,7 +8,7 @@ Here you will find:
 - **Pill Risk Check** - get a check of potential pill risks using your sex, age, and country of origin. 
 
 This repository contains the application code for the MedBook project.
-The business documentation lives in a separate repository: [MedBook - business report](https://github.com/unibo-dtm-se-2324-MedBook/report)
+The business documentation lives in a separate repository: [MedBook - business report](https://github.com/unibo-dtm-se-2324-MedBook/medbook-business-report)
 
 ---
 
@@ -16,75 +16,71 @@ The business documentation lives in a separate repository: [MedBook - business r
 - [Technical Features](#technical-Features)
 - [Requirements](#requirements)
 - [Project Structure](#project-structure)
-- [Architecture](#architecture)
 - [Getting Started](#getting-started)
-- [Quality: Tests](#quality-linttypetests)
-- [PyPI](#pypi)
-- [Releases & Versioning](#releases--versioning)
+- [Testing and Code Coverage](#testing-and-code-coverage)
+- [Available on PyPI and GitHub](#available-on-pypi-and-gitHub)
 - [License](#license)
 
 ---
 
 ## Technical Features
-- Расписание приёма лекарств (отметка, напоминания)
-- Хранение медицинских документов (Firebase)
-- Авторизация пользователя
-- Уведомления
+Built a full‑stack, multi‑page application with routed pages using Python and Flet front-end:
+- User authentication system using Firebase Authentication;
+- Interactive medication schedule using the cloud‑based Realtime Database;
+- Daily Reminder at 06:00: timetable triggers in‑app and push reminders;
+- Document Storage using Firebase Storage to upload and retrieval of lab results and prescriptions;
+- Pill Risk Check: call a third‑party medical API (OpenFDA API) to flag contraindications. 
+
+In the project Poetry is used to configure in such a way that:
+* a virtual environment is created automatically;
+* dependencies are declared in a pyproject.toml file, and installed in the aforementioned environment;
+* the project can be published on PyPI, with a single command.
+
+## Requirements
+```
+Python = ">=3.12,<4.0"
+Poetry >= "2.0.0,<3.0.0"
+
+dependencies = [
+	"flet==0.25.2",
+	"pyrebase4==4.8.0",
+	"firebase-admin==6.6.0",
+	"setuptools (>=80.9.0,<81.0.0)"
+]
+dev.dependencies = [
+	pytest = "^8.1.0"
+	coverage = "^7.4.0"
+	pytest-cov = "^7.0.0"
+]
+```
 
 ## Project Structure
 ```
 .gitattributes
 .gitignore
-poetry.toml
+poetry.toml          # Poetry configuration
 poetry.lock
-pyproject.toml
-pytest.ini
+pyproject.toml       # Project manifest
+pytest.ini           # Pytest configuration
 LICENSE
 
-.github/
+.github/             # CI workflows
 
-artefact/
-├── assets/
-├── service/ 
+artefact/                     # Folder with artefact code
+├── assets/                   # Static files: images, icons, fonts, etc
+├── service/                  # Backend-facing services (Firebase auth, Storage, DataBase, external APIs, etc)
 ├── ui/
-│ └── gui
-│   ├── components/
-│   └── _master page files_
-├── utils/
+│ └── gui                     # GUI implementation
+│   ├── components/           # Reusable UI widgets (header, navigation bar)
+│   └── _master page files_   # Page screens (LoginPage, SettingsPage, etc)
+├── utils/                    # Helpers & utilities (validation, constants, formatting)
 └── __init__.py
 
-tests/
+tests/               # Folder with tests
 ├── test_model.py
-├── unit
-└── integration
+└── unit/            # Folder with unit-tests
 
 ```
-
-## Architecture
-Проект следует принципам **DDD** и **Hexagonal (Ports & Adapters)**:
-- **domain/** — сущности, value objects, агрегаты, доменные сервисы, интерфейсы репозиториев.
-- **application/** — use-cases (оркестрация доменной логики).
-- **infrastructure/** — реализации портов: Firebase/OpenFDA, хранилища, клиенты.
-- **ui/** — Flet-интерфейс, компоненты.
-
-**Bounded Contexts**: `auth`, `med_schedule`, `documents`, `notifications`.  
-Ключевые инварианты: уникальность слотов приёма, корректность дат/дозировок и т.п.
-
-Poetry is configures in such a way that:
-
-* a virtual environment is created automatically for this project, in the .venv directory
-* dependencies are declared in a pyproject.toml file, and installed in the aforementioned environment
-* the project can be published on PyPI, with a single command
-
-Requirements
-Python 3.11
-Kivy 2.3
-
-Development requirements
-Coverage.py 7.4.0
-Mypy 1.9.0
-Pytest 8.1.0
-Poetry 1.7.0
 
 ## Getting Started
 ### Download the project
@@ -92,8 +88,8 @@ Choose one of the following:
 1. Option A — Download ZIP from GitHub
 2. Option B — Clone with Git:
 ```
-git clone https://github.com/<your-org>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/unibo-dtm-se-2324-MedBook/medbook-application-core.git
+cd medbook-application-core
 ```
 
 ### Install Dependencies
@@ -106,43 +102,38 @@ poetry install
 poetry install --only main 
 ```
 ### Environment Variables (Secrets)
-If you received a .env file (e.g., Firebase keys), place it in the project root (next to pyproject.toml).
-
-Provide your environment variables (e.g., Firebase keys) via your platform’s secret manager or a .env file loaded before the app starts. Example variables:
--FIREBASE_API_KEY
--FIREBASE_AUTH_DOMAIN
--FIREBASE_PROJECT_ID
--FIREBASE_STORAGE_BUCKET
--FIREBASE_DB_URL
+To run the application end to end, you need:
+* a Firebase project (create _Realtime Database, Authentication, and Storage_)
+* configure the required secrets as environment variables, such as _Firebase admin key_, _Firebase key_, _Firebase service account_.
 
 ### Run the application
 Use one of the options below:
-1) Run by module (recommended fallback)
+1) Run by module
 ```
-poetry run python -m artefact.ui.gui.main_page
+poetry run python artefact/__init__.py
 ```
 2) Run via CLI command
 ```
 poetry run medbook
 ```
-### Tests + coverage
-Ковередж уже включен автоматически в ран тестов, поэтому можно сделать просто:
+
+## Testing and Code Coverage
+This project includes a comprehensive unit test suite with a current code coverage of ~81%.
+A textual coverage summary is printed automatically when running the standard test task:
 ```
 poetry run pytest
 ```
-Но если хочется html отчет, то код:
+ To generate an HTML coverage report, use the next code line:
 ```
+poetry run pytest --cov=artefact --cov-report=term-missing --cov-report=html
 ```
 
+## Available on PyPI and GitHub
 
-## Releases & Versioning
-
-Версионирование: SemVer (MAJOR.MINOR.PATCH)
-
-Теги: v0.x.y, GitHub Releases + CHANGELOG
-
-## PyPI
-
+This project’s source code is hosted on GitHub, and a packaged release is also published on PyPI.
+- **PyPI (package)**: [medbook-medical-hub](https://pypi.org/project/medbook-medical-hub/)  
+  *Note:* the PyPI source distribution excludes the test suite to keep the package lightweight.
+- **GitHub (full source with tests)**: [MedBook](https://github.com/unibo-dtm-se-2324-MedBook/medbook-application-core)
 
 ## License
 
