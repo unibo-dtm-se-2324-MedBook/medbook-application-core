@@ -53,6 +53,7 @@ dev.dependencies = [
 	pytest-cov = "^7.0.0"
 ]
 ```
+---
 
 ## Project Structure
 ```
@@ -81,6 +82,7 @@ tests/               # Folder with tests
 └── unit/            # Folder with unit-tests
 
 ```
+---
 
 ## Getting Started
 ### Download the project
@@ -116,6 +118,7 @@ poetry run python artefact/__init__.py
 ```
 poetry run medbook
 ```
+---
 
 ## Testing and Code Coverage
 This project includes a comprehensive unit test suite with a current code coverage of ~81%.
