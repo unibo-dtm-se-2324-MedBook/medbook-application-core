@@ -85,7 +85,7 @@ class PageHeader(UserControl):
         
         notif_dialog = AlertDialog(
             bgcolor = minor_light_bgcolor,
-            inset_padding = padding.symmetric(horizontal = 20, vertical = 20),
+            inset_padding = padding.only(top = 20, left = 10, right = 10, bottom = 10),
 
             title = Text("Notifications", size = 18, text_align = 'center'),
             title_padding = padding.only(top = 20, bottom = 10),

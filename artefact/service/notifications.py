@@ -7,11 +7,11 @@ from firebase_admin import auth as firebase_auth
 
 
 class NotificationService(UserControl):
-    def __init__(self, page, token, page_header):
+    def __init__(self, page, token, uid, page_header):
         super().__init__()
         self.page = page
         self.token = token
-        self.user_uid = firebase_auth.verify_id_token(token)['uid']
+        self.user_uid = uid
         
         self.page_header = page_header
 
@@ -21,7 +21,7 @@ class NotificationService(UserControl):
     def did_mount(self):
         if not self.page.session.get('reminders_started'):
             self.page.session.set('reminders_started', True)
-            print('did_mount has run')
+            # print('did_mount has run')
             self.page.run_task(self._schedule_daily_reminders)
     
     async def _schedule_daily_reminders(self):

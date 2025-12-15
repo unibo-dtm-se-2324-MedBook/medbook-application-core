@@ -16,7 +16,7 @@ class DocumentsPage(UserControl):
         self.token = ''
         self.user_uid = ''
  
-        self.no_docs_text = Text('No documents uploaded yet', size = general_txt_size, italic = True, color = colors.GREY, visible = False)
+        self.no_docs_text = Text('No documents uploaded yet', size = general_txt_size, italic = True, color = Colors.GREY, visible = False)
 
         # Area for uploaded documents
         self.doc_grid = GridView(
@@ -50,9 +50,7 @@ class DocumentsPage(UserControl):
         page_header = PageHeader(current_page = None)
         
         self.token = self.page.session.get('token')
-        user = auth.get_account_info(self.token)
-        self.user_uid = user['users'][0]['localId']
-        self.page.session.set('uid', self.user_uid)
+        self.user_uid = self.page.session.get('uid')
 
         # Check the timer to start notification service only once
         if self.token and not self.page.session.get('reminders_started'):
@@ -129,7 +127,7 @@ class DocumentsPage(UserControl):
 
     # Logic action of file picker clicking the 'Add new file' button
     def on_file_picked(self, e: FilePickerResultEvent):
-        print("File picker result:", e.files)
+        # print("File picker result:", e.files)
         if e.files:
             file_path = e.files[0].path
             documents_page_service.upload_user_document(self.user_uid, self.token, file_path)
@@ -156,7 +154,7 @@ class DocumentsPage(UserControl):
             self.no_docs_text.visible = True
 
         self.update()
-        print('def load_documents finished')
+        # print('def load_documents finished')
 
     # Creation of visual of file
     def _build_doc_card(self, name, url, storage_path, doc_id):
@@ -234,7 +232,7 @@ class DocumentsPage(UserControl):
             self.page.update()
 
         except Exception as e:
-            print(f'Failed to delete document: {e}')
+            # print(f'Failed to delete document: {e}')
 
             self.page.snack_bar = SnackBar(Text('Failed to delete document'))
             self.page.snack_bar.open = True

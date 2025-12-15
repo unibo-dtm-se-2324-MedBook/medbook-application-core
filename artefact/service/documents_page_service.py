@@ -22,7 +22,7 @@ def upload_user_document(uid: str, token: str, file_path: str):
     storage.child(unique_name).put(file_path, token)
 
     public_url = storage.child(unique_name).get_url(token)
-    if 'alt = media' not in public_url:
+    if 'alt=media' not in public_url:
         public_url += '&alt=media'
 
     db.child('users').child(uid).child('documents').push({
@@ -60,7 +60,8 @@ def download_file_from_url(url, saved_path, token):
             f.write(response.content)
 
     except Exception as e:
-        print(f'Download failed: {e}')
+        # print(f'Download failed: {e}')
+        pass
 
 
 def delete_user_document(uid: str, token: str, doc_id: str, storage_path: str):
@@ -69,4 +70,5 @@ def delete_user_document(uid: str, token: str, doc_id: str, storage_path: str):
         db.child('users').child(uid).child('documents').child(doc_id).remove(token)
 
     except Exception as e:
-        print(f'Error while deleting document: {e}')
+        # print(f'Error while deleting document: {e}')
+        pass

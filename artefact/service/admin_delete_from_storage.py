@@ -24,4 +24,5 @@ def delete_file_from_storage(storage_path: str):
         # print(f'Successfully deleted: {storage_path}')
 
     except Exception as e:
-        print(f'Error deleting file: {e}')
+        # print(f'Error deleting file: {e}')
+        pass

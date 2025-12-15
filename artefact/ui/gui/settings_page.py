@@ -40,16 +40,14 @@ class SettingsPage(UserControl):
     def build(self):
         page_header = PageHeader(current_page = None)
         
+        self.user_uid = self.page.session.get('uid')
         self.token = self.page.session.get('token')
         
         # Check the timer to start notification service only once
         if self.token and not self.page.session.get('reminders_started'):
             notif_service = NotificationService(self.page, self.token, page_header = page_header)
             self.page.overlay.append(notif_service)
-
-
-        decoded_token = firebase_auth.verify_id_token(self.token)
-        self.user_uid = decoded_token['uid']
+ 
         self.load_user_info()
 
         def create_row_info(name_info, text_control):
@@ -184,7 +182,7 @@ class SettingsPage(UserControl):
 
         edit_form = AlertDialog(
             bgcolor = minor_light_bgcolor,
-            inset_padding = padding.symmetric(horizontal = 10, vertical = 20),
+            inset_padding = padding.only(top = 20, left = 10, right = 10, bottom = 10),
 
             title = Container(
                 alignment = alignment.center,

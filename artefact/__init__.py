@@ -23,23 +23,14 @@ class App(UserControl):
         super().__init__()
         page.window.width = base_width
         page.window.height = base_height
-        page.window_frameless = True #  a window without the standard frame, title bar, and window control buttons such as minimize, maximize, and close
-        page.window_title_bar_buttons_hidden = True
-        page.window_title_bar_hidden = True
-        page.bgcolor = colors.TRANSPARENT
-        page.window_bgcolor = colors.TRANSPARENT
+        page.window.frameless = True #  a window without the standard frame, title bar, and window control buttons such as minimize, maximize, and close
+        page.window.title_bar_buttons_hidden = True
+        page.window.title_bar_hidden = True
+        page.bgcolor = Colors.TRANSPARENT
+        page.window.bgcolor = Colors.TRANSPARENT
 
         self.page = page
         self.page.spacing = 0
-
-        # self.first_page = FirstPage()
-        # self.login_page = LoginPage()
-        # self.signup_page = SignUpPage()
-        # self.main_page = MainPage()
-        # self.forgpassw_page = ForgPasswPage()
-        # self.settings_page = SettingsPage()
-        # self.documents_page = DocumentsPage()
-        # self.medicine_check_page = MedicineCheckPage()
 
         page.on_route_change = self.route_change
         page.go("/first_page")

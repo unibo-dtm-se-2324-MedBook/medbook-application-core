@@ -126,7 +126,7 @@ class NavigationBar(UserControl):
         self.current_page.controls[0].border_radius = b_radius
         self.current_page.controls[0].scale = transform.Scale(1, alignment = alignment.center_right)
         self.current_page.update()
-
+        
     # Function of exit clicking the 'Exit' button in navigation
     def exit(self, e):
         token = self.page.session.get('token')
