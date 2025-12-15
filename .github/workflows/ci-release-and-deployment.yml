@@ -4,7 +4,10 @@ on:
   push:
     tags:
       - 'v*' # launched when tags are pushed
-
+      
+permissions:
+  contents: write
+  
 jobs:
   release:
     runs-on: ubuntu-latest
