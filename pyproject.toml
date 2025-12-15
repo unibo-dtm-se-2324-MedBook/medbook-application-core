@@ -2,7 +2,7 @@
 name = "medbook-medical-hub"
 
 # various metadata for publication
-version = "0.2.0"
+version = "0.2.1"
 description = "A desktop application that helps users manage medications and personal health records. Features include a monthly calendar with daily reminders, medical document storage, personalized pill risk monitoring, and personal profile editing"
 authors = [{name = "Anastasiia Bakhmutova",email = "bakhmutovaaa@gmail.com"}]
 readme = "README.md"
